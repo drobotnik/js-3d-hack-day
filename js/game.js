@@ -131,20 +131,14 @@
 			var force = getForwardVector(this.mesh);
 			force.multiplyScalar(controller.forwardBack());
 
-			var jumpVector = new THREE.Vector3(0,20,0);
-			var diveVector = new THREE.Vector3(0,-1,0);
+			var jumpVector = new THREE.Vector3(0,30,0);
 			var gravity = new THREE.Vector3(0,-0.7,0);
-			if (controller.isButtonPressed(0) && this.mesh.position.y < 1.1){
+			if (controller.isButtonPressed(0) && this.mesh.position.y < 1.01){
 				force.add(jumpVector);
 
 			};
-
-			if(controller.isButtonPressed(1)){
-				force.add(diveVector);
-			};
 			if(this.mesh.position.y > 1){
-				force.add(gravity);
-				
+				force.add(gravity);	
 			};
 
 
@@ -312,7 +306,12 @@
 						blob.hide();
 					}
 					else{
-						console.log('BOUNCE!')
+						var pushBack = thing.mesh.position.clone();
+						pushBack.sub(blob.mesh.position);
+						pushBack.normalize();
+						pushBack.multiplyScalar(0.4);
+						thing.vel.add(pushBack);
+
 					};
 					
 				}
