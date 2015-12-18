@@ -7,6 +7,7 @@
 	var bullets = [];
 	var lives = 3;
 	var score = 0;
+	var showScore;
 
 	// renderer
 	// NOTE: +x is right, +y is up, +z points out of the screen
@@ -15,8 +16,20 @@
 	renderer.setClearColor(new THREE.Color(0.1, 0.5, 0.7))
 	renderer.shadowMap.enabled = true;
 
-	document.body.appendChild(renderer.domElement);
-	document.getElementById('score').innerHTML = score;
+	document.addEventListener("DOMContentLoaded", function(event) {
+    document.getElementById("intro").addEventListener("mousedown", closeIntro);
+
+    function closeIntro() {
+        document.body.insertBefore(renderer.domElement, document.body.firstChild);
+        var element = document.getElementById("intro");
+        element.removeEventListener("mousedown", closeIntro);
+        document.body.removeChild(element);
+        showScore = true;
+				document.getElementById('score').innerHTML = score;
+				document.body.removeChild(document.getElementById('intro-text'));
+    } 
+
+  });
 
 	// scene
 	var scene = new THREE.Scene();
@@ -496,8 +509,10 @@
 		requestAnimationFrame(update);
 
 		// update score
-		document.getElementById('score').innerHTML = score;
-		document.getElementById('score').className = (score > 0 ? 'winning' : 'losing');
+		if (showScore) {
+			document.getElementById('score').innerHTML = score;
+			document.getElementById('score').className = (score > 0 ? 'winning' : 'losing');
+		}
 	};
 
 	// start updates
