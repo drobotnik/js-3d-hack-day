@@ -195,10 +195,10 @@
 		}
 		this.damage = function(){
 			this.mesh.material.color.setHex(red);
-			damaged = 1;
+			this.damaged = 1;
 			window.setTimeout(function() {
 			  this.mesh.material.color.setHex(green);
-			  damaged = 0;
+			  this.damaged = 0;
 			}.bind(this), 5000);
 		};
 
@@ -211,7 +211,7 @@
 		this.mesh.castShadow = true;
 
 		var mass = 100;
-		var damaged = 0;
+		this.damaged = 0;
 
 		this.angle = 0;
 		this.angularVel = rand(-10,10);
@@ -431,7 +431,7 @@
 		bullets.forEach(function (bullet) {
 			bullet.update();
 			blobs.forEach(function (blob) {
-				if (blob.active() && blob.collidesWith(bullet)) {
+				if (blob.active() && blob.collidesWith(bullet) && blob.damaged) {
 					blob.hide();
 				}
 			});
