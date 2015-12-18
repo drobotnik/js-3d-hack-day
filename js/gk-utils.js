@@ -95,6 +95,7 @@ function Controller(controls) {
 				}
 				
 				control.pressed = pressed;
+				event.preventDefault();
 			}
 		}
 	}
@@ -126,7 +127,8 @@ standardControls = [
 	{ which:"z", kc:90, button:0 },
 	{ which:"x", kc:88, button:1 },
 	{ which:"c", kc:67, button:2 },
-	{ which:"v", kc:86, button:3 }
+	{ which:"v", kc:86, button:3 },
+	{ which:"space", kc:32, button:4 }
 ];
 
 

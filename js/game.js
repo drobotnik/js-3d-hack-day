@@ -3,6 +3,8 @@
 	// setup
 	var width = 500;
 	var height = 500;
+	var BULLET_SPEED = 1.2;
+	var bullets = [];
 
 	// renderer
 	// NOTE: +x is right, +y is up, +z points out of the screen
@@ -292,13 +294,100 @@
 	var blobs = createBlobs(10);
 	placeBlobs();
 
+	// Create and attach gun
+	var gun = new Gun();
+	gun.attachTo(thing);
+	gun.init();
 
+	// ---------------------------------------------
+	// gun
+	function Gun() {
+		var OVERHEAT = 10;
+		var gunGeom = new THREE.SphereGeometry(0.1, 32, 32);
+
+		this.mesh = new THREE.Mesh(gunGeom, makeMaterial({color: 0xAAffff}));
+
+		this.attachTo = function(owner) {
+			owner.mesh.add(this.mesh);
+		};
+
+		this.fire = function() {
+			var bullet;
+
+			if (this.overheat > 0) {
+				return;
+			}
+
+			bullet = new Bullet();
+
+			bullet.init(this.mesh.parent.position, this.mesh.parent.rotation);
+
+			this.overheat = OVERHEAT;
+
+		};
+
+		this.removeFrom = function(owner) {
+			owner.mesh.remove(this.mesh);
+		};
+
+		this.init = function () {
+			// scene.add(this.mesh);
+		};
+
+		this.update = function () {
+			this.overheat -= 1;
+			if (controller.isButtonPressed(4)) {
+				this.fire();
+			}
+		};
+	}
+
+	function Bullet() {
+		var BULLET_SIZE = 0.25;
+		var bulletGeom = new THREE.SphereGeometry(BULLET_SIZE, 32, 32);
+		this.mesh = new THREE.Mesh(bulletGeom, makeMaterial({color:0xFFDC52}));
+
+		this.init = function(position, rotation) {
+			this.mesh.position.copy(position);
+			this.mesh.rotation.copy(rotation);
+			bullets.push(this);
+			scene.add(this.mesh);
+		};
+
+		this.destroy = function() {
+			var indexToRemove;
+			bullets.forEach(function (bullet, index) {
+				if (bullet == this) {
+					indexToRemove = index;
+				}
+			}.bind(this));
+			bullets.splice(indexToRemove, 1);
+			scene.remove(this.mesh);
+		}
+
+		this.update = function() {
+			// get the thing's forward vector
+			var forwardVector = getForwardVector(this.mesh);
+			forwardVector.multiplyScalar(BULLET_SPEED);
+			this.mesh.position.add(forwardVector);
+
+			// Destroy if out of screen
+			var outBy = this.mesh.position.length();
+			console.log('outBy:', outBy);
+			if (outBy > arenaSize * 2)
+			{
+				this.destroy();
+			}
+		};
+
+	}
 
 	// ---------------------------------------------
 	// main loop
 	function update() {
 
 		thing.update();
+		gun.update();
 
 		var haveActiveBlobs = false;
 		blobs.forEach( function(blob) {
@@ -325,9 +414,14 @@
 			placeBlobs();
 		}
 		
-		// update camera
-		//camera.lookAt(thing.mesh.position);
-//		camera.position.set(thing.mesh.position.add());
+		bullets.forEach(function (bullet) {
+			bullet.update();
+			blobs.forEach(function (blob) {
+				if (blob.active() && blob.collidesWith(bullet)) {
+					blob.hide();
+				}
+			});
+		});
 
 		// draw
 		renderer.render(scene, camera);
