@@ -19,11 +19,11 @@
 	var scene = new THREE.Scene();
 
 	// light - sky and ground
-	var worldLight = new THREE.HemisphereLight(0x66ccff , 0x00aa00, 0.5);
+	var worldLight = new THREE.HemisphereLight(0xffffff , 0x303030, 0.9);
 	scene.add(worldLight)
 
 	// light - spot
-	var spotLight = new THREE.SpotLight(0xffffff, 0.6, 0, toRad(60), 90.0);
+	var spotLight = new THREE.SpotLight(0xffffff, 0.2, 0, toRad(60), 20.0);
 	scene.add(spotLight);
 	spotLight.castShadow = true;
 	spotLight.shadowDarkness = 1.0;
@@ -40,7 +40,7 @@
 	// floor plane
 	var arenaSize = 60;
 	var floorGeom = new THREE.CircleGeometry(arenaSize, 64);
-	var floor = new THREE.Mesh(floorGeom, makeMaterial({color:0x009f2f, shininess:1}));
+	var floor = new THREE.Mesh(floorGeom, makeMaterial({color:0x909090, shininess:1}));
 	scene.add(floor);
 	floor.receiveShadow = true;
 	floor.rotation.x = -toRad(90);
@@ -95,7 +95,7 @@
 		};
 		// create mesh
 		var thingGeom = makeGeometry(thingSpec);
-		this.mesh = new THREE.Mesh(thingGeom, makeMaterial({color:0xffffff}));
+		this.mesh = new THREE.Mesh(thingGeom, makeMaterial({color:0xffff00}));
 		this.mesh.castShadow = true;
 
 		// constants
@@ -241,10 +241,10 @@
 		}
 
 		this.damage = function(){
-			this.mesh.material.color.setHex(red);
+			this.mesh.material.emissive.setHex(orange);
 			this.damaged = 1;
 			window.setTimeout(function() {
-			  this.mesh.material.color.setHex(green);
+			  this.mesh.material.emissive.setHex(0);
 			  this.damaged = 0;
 			}.bind(this), 3000);
 		};
@@ -252,9 +252,9 @@
 		// create mesh
 		var blobGeom = makeBlobGeom();
 		blobGeom.computeBoundingSphere();
-		green = 0xffff00;
+		orange = 0xff9900;
 		red = 0xff0000;
-		this.mesh = new THREE.Mesh(blobGeom, makeMaterial({color:green}));
+		this.mesh = new THREE.Mesh(blobGeom, makeMaterial({color:red}));
 		this.mesh.castShadow = true;
 
 		var mass = 100;
