@@ -267,6 +267,10 @@
 	// create and initialise our thing
 	var thing = new Thing();
 	thing.init();
+	THREE.SceneUtils.attach(camera, scene, thing.mesh);
+	camera.position.set(0,3, -5);
+	camera.rotation.set(toRad(20),toRad(180),0);
+
 
 	// create and initialise blobs
 	function createBlobs(num) {
@@ -322,7 +326,8 @@
 		}
 		
 		// update camera
-		camera.lookAt(thing.mesh.position);
+		//camera.lookAt(thing.mesh.position);
+//		camera.position.set(thing.mesh.position.add());
 
 		// draw
 		renderer.render(scene, camera);
