@@ -5,6 +5,8 @@
 	var height = 500;
 	var BULLET_SPEED = 1.2;
 	var bullets = [];
+	var lives = 3;
+	var score = 0;
 
 	// renderer
 	// NOTE: +x is right, +y is up, +z points out of the screen
@@ -14,6 +16,7 @@
 	renderer.shadowMap.enabled = true;
 
 	document.body.appendChild(renderer.domElement);
+	document.getElementById('score').innerHTML = score;
 
 	// scene
 	var scene = new THREE.Scene();
@@ -459,8 +462,6 @@
 				if (blob.collidesWith(thing)) {
 					if(thing.mesh.position.y > 1.1){
 						blob.damage()
-						//blob.hide();
-
 					}
 					else{
 						var pushBack = thing.mesh.position.clone();
@@ -468,7 +469,7 @@
 						pushBack.normalize();
 						pushBack.multiplyScalar(0.4);
 						thing.vel.add(pushBack);
-
+						if (!blob.damaged) score -= 5;
 					};
 					
 				}
@@ -483,6 +484,7 @@
 			blobs.forEach(function (blob) {
 				if (blob.active() && blob.collidesWith(bullet) && blob.damaged) {
 					blob.hide();
+					score += Math.floor(Math.random() * 7);
 				}
 			});
 		});
@@ -492,6 +494,10 @@
 
 		// next frame
 		requestAnimationFrame(update);
+
+		// update score
+		document.getElementById('score').innerHTML = score;
+		document.getElementById('score').className = (score > 0 ? 'winning' : 'losing');
 	};
 
 	// start updates

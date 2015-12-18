@@ -3,9 +3,26 @@
 		<link rel="shortcut icon" href="/favicon.ico?v=2" />
 		<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
 		<title>Superawesomejumpyshootingflygame</title>
-		<style>/*canvas { width: 90%; height: 90% }*/</style>
+		<style>
+			#score {
+				position: absolute;
+				top: 20;
+				left: 20;
+				font-size: 18px;
+				font-weight: bold;
+			}
+
+			.winning {
+				color: blue;
+			}
+
+			.losing {
+				color: red;
+			}
+		</style>
 	</head>
 	<body>
+		<div id="score"></div>
 		<script src="js/external/three.js"></script>
 		<script src="js/gk-utils.js"></script>
 		<script src="js/game.js"></script>
