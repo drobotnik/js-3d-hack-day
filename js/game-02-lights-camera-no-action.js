@@ -8,7 +8,7 @@
 	// NOTE: +x is right, +y is up, +z points out of the screen
 	var renderer = new THREE.WebGLRenderer();
 	renderer.setSize(width, height);
-	renderer.setClearColor(new THREE.Color(0.1, 0.5, 0.7))
+	renderer.setClearColor(new THREE.Color(0.3, 0, 0.3))
 	renderer.shadowMap.enabled = true;
 
 	document.body.appendChild(renderer.domElement);
@@ -23,7 +23,7 @@
 	// camera
 	var camera = new THREE.PerspectiveCamera(60, width/height, 0.1, 1000);
 	camera.position.set(5, 10, 20);
-	camera.lookAt(new THREE.Vector3(0,0,0));
+	camera.lookAt(new THREE.Vector3(00,0,0));
 
 	// floor plane
 	var arenaSize = 20;

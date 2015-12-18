@@ -246,7 +246,7 @@
 		return blobs;
 	}
 
-	var blobs = createBlobs(10);
+	var blobs = createBlobs(100);
 	blobs.forEach( function(blob) { 
 		blob.placeRandomly(arenaSize / 2); 
 	});

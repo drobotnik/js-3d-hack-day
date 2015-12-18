@@ -122,11 +122,11 @@
 		force.multiplyScalar(controller.forwardBack());
 		
 		// Keep it inside the circle
-		var outBy = thingMesh.position.length() > arenaSize;
+		var outBy = thingMesh.position.length() - arenaSize;
 		if (outBy > 0)
 		{
 			var pushBack = thingMesh.position.clone();
-			pushBack.y = 0;
+			pushBack.y = 00;
 			pushBack.negate();
 			//pushBack.normalize();
 			force.add(pushBack);

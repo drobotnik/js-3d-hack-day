@@ -94,8 +94,11 @@
 	var	thingAngle = 0;
 	var thingAngularVel = 0;
 
-	var thingMass = 50;
+	var thingMass = 59;
 	var thingVel = new THREE.Vector3(0,0,0);
+
+	var vector = document.createElement('div');
+	document.body.appendChild(vector)
 
 	var rotFriction = 0.95;
 	var moveFriction = 0.98;
@@ -142,5 +145,7 @@
 
 	// start updates
 	update();
+	vector.innerHTML = 'x' + thingVel.x + ',' + thingVel.y + ','+thingVel.z
+
 	
 }());

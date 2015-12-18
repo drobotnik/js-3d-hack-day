@@ -103,7 +103,7 @@
 		forwardVector.multiplyScalar(controller.forwardBack() * moveSpeed);
 		thingMesh.position.add(forwardVector);
 		
-		var sideVector = new THREE.Vector3(1,0,0);
+		var sideVector = new THREE.Vector3(-1,0,0);
 		sideVector.multiplyScalar(controller.rightLeft() * moveSpeed);
 		thingMesh.position.add(sideVector);
 

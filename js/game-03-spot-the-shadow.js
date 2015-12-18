@@ -46,7 +46,7 @@
 	// sphere
 	var ballRad = 2;
 	var ballGeom = new THREE.SphereGeometry(ballRad, 32, 32);
-	var ball = new THREE.Mesh(ballGeom, makeMaterial({color:0xffffff, shininess:100}));
+	var ball = new THREE.Mesh(ballGeom, makeMaterial({color:0xffffff, shininess:0}));
 	scene.add(ball);
 	ball.castShadow = true;
 	ball.position.set(0, 2, 0);

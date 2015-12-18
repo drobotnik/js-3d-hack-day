@@ -131,6 +131,25 @@
 			var force = getForwardVector(this.mesh);
 			force.multiplyScalar(controller.forwardBack());
 
+			var jumpVector = new THREE.Vector3(0,20,0);
+			var diveVector = new THREE.Vector3(0,-1,0);
+			var gravity = new THREE.Vector3(0,-0.7,0);
+			if (controller.isButtonPressed(0) && this.mesh.position.y < 1.1){
+				force.add(jumpVector);
+
+			};
+
+			if(controller.isButtonPressed(1)){
+				force.add(diveVector);
+			};
+			if(this.mesh.position.y > 1){
+				force.add(gravity);
+				
+			};
+
+
+
+
 			// Keep it inside the circle
 			var outBy = this.mesh.position.length() > arenaSize;
 			if (outBy > 0)
@@ -149,7 +168,17 @@
 			this.mesh.position.add(this.vel);
 
 			this.vel.multiplyScalar(moveFriction);
+
+			if(this.mesh.position.y < 1){
+				this.mesh.position.y = 1;
+			};
+
+
+		
+
 		}
+
+
 	};
 
 
@@ -170,7 +199,7 @@
 		}
 
 		// create mesh
-		var blobGeom = makeBlobGeom(10, 0.2, 0.8, 0.5);
+		var blobGeom = makeBlobGeom(10, 0.5, 1, 0.7);
 		blobGeom.computeBoundingSphere();
 		this.mesh = new THREE.Mesh(blobGeom, makeMaterial({color:0xffff00}));
 		this.mesh.castShadow = true;
@@ -279,7 +308,13 @@
 				blob.update();
 				haveActiveBlobs = true;
 				if (blob.collidesWith(thing)) {
-					blob.hide();
+					if(thing.mesh.position.y > 1.1){
+						blob.hide();
+					}
+					else{
+						console.log('BOUNCE!')
+					};
+					
 				}
 			}
 		});

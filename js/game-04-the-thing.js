@@ -58,7 +58,7 @@
 				position: { x:0.2, y:0.3, z:0.3 },
 			},
 			{ 
-				shape: { type: "cylinder", r1:0.1, r2:0.4, h:1.0 },
+				shape: { type: "cylinder", r1:0.4, r2:0.001, h:1.0 },
 				position: { x:0, y:0.0, z:0.6 },
 				rotation: { x:90, y:0, z:0 }
 			},
@@ -81,7 +81,7 @@
 	};
 	// thing
 	var thingGeom = makeGeometry(thingParts);
-	var thingMesh = new THREE.Mesh(thingGeom, makeMaterial({color:0xffffff}));
+	var thingMesh = new THREE.Mesh(thingGeom, makeMaterial({color:0xffffff, shininess:0}));
 	scene.add(thingMesh);
 	thingMesh.castShadow = true;
 	thingMesh.position.set(0, 1, 0);
@@ -93,7 +93,7 @@
 	function update() {
 
 		thingMesh.rotation.y = toRad(thingAngle);
-		thingAngle++;
+		thingAngle = thingAngle + 5;
 
 
 		// draw

@@ -180,7 +180,7 @@
 		this.angle = 0;
 		this.angularVel = rand(-10,10);
 		this.vel = new THREE.Vector3(0,0,0);
-		var maxForce = 1.0;
+		var maxForce = 10.0;
 
 		// initialise function
 		this.init = function() {

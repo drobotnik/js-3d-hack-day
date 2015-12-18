@@ -90,7 +90,7 @@
 	// Controller utility object
 	var controller = new Controller(standardControls);
 
-	var rotateSpeed = 4;
+	var rotateSpeed = 10;
 	var moveSpeed = 0.1;
 	var	thingAngle = 0;
 
