@@ -191,21 +191,32 @@
 			}
 			return makeGeometry(blobSpec);
 		}
+		this.damage = function(){
+			this.mesh.material.color.setHex(red);
+			damaged = 1;
+			window.setTimeout(function() {
+			  this.mesh.material.color.setHex(green);
+			  damaged = 0;
+			}.bind(this), 5000);
+		};
 
 		// create mesh
 		var blobGeom = makeBlobGeom(10, 0.5, 1, 0.7);
 		blobGeom.computeBoundingSphere();
-		this.mesh = new THREE.Mesh(blobGeom, makeMaterial({color:0xffff00}));
+		green = 0xffff00;
+		red = 0xff0000;
+		this.mesh = new THREE.Mesh(blobGeom, makeMaterial({color:green}));
 		this.mesh.castShadow = true;
 
 		var mass = 100;
+		var damaged = 0;
 
 		this.angle = 0;
 		this.angularVel = rand(-10,10);
 		this.vel = new THREE.Vector3(0,0,0);
 		var maxForce = 1.0;
 
-		// initialise function
+		// initialise functionwzw
 		this.init = function() {
 			scene.add(this.mesh);
 			this.mesh.visible = false;
@@ -278,6 +289,7 @@
 		for (var i = 0; i< num; i++) {
 			var blob = new Blob();
 			blob.init();
+
 			blobs.push(blob);
 		}
 		return blobs;
@@ -307,7 +319,9 @@
 				haveActiveBlobs = true;
 				if (blob.collidesWith(thing)) {
 					if(thing.mesh.position.y > 1.1){
-						blob.hide();
+						blob.damage()
+						//blob.hide();
+
 					}
 					else{
 						var pushBack = thing.mesh.position.clone();
