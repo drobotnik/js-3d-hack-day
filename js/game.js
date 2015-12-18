@@ -1,7 +1,7 @@
 (function () {
 
 	// setup
-	var width = 500;
+	var width = 1000;
 	var height = 500;
 	var BULLET_SPEED = 1.2;
 	var bullets = [];
@@ -23,7 +23,7 @@
 	scene.add(worldLight)
 
 	// light - spot
-	var spotLight = new THREE.SpotLight(0xffffff, 0.6, 0, toRad(60), 10.0);
+	var spotLight = new THREE.SpotLight(0xffffff, 0.6, 0, toRad(60), 90.0);
 	scene.add(spotLight);
 	spotLight.castShadow = true;
 	spotLight.shadowDarkness = 1.0;
@@ -38,7 +38,7 @@
 	camera.lookAt(new THREE.Vector3(0,0,0));
 
 	// floor plane
-	var arenaSize = 20;
+	var arenaSize = 60;
 	var floorGeom = new THREE.CircleGeometry(arenaSize, 64);
 	var floor = new THREE.Mesh(floorGeom, makeMaterial({color:0x009f2f, shininess:1}));
 	scene.add(floor);
@@ -327,6 +327,8 @@
 	// create and initialise our thing
 	var thing = new Thing();
 	thing.init();
+	spotLight.target = thing.mesh;
+
 	THREE.SceneUtils.attach(camera, scene, thing.mesh);
 	camera.position.set(0,3, -5);
 	camera.rotation.set(toRad(20),toRad(180),0);
@@ -402,10 +404,12 @@
 	}
 
 	function Bullet() {
-		var BULLET_SIZE = 0.25;
-		var bulletGeom = new THREE.SphereGeometry(BULLET_SIZE, 32, 32);
-		this.mesh = new THREE.Mesh(bulletGeom, makeMaterial({color:0xFFDC52}));
-
+		var BULLET_SIZE = 0.01;
+		var bulletGeom = new THREE.CylinderGeometry(BULLET_SIZE, BULLET_SIZE*10, 3, 10);
+		bulletGeom.rotateX(toRad(90));
+		var material = makeMaterial({color: 0x000000});
+		material.emissive.setHex(0x33FF33);
+		this.mesh = new THREE.Mesh(bulletGeom, material);
 		this.init = function(position, rotation) {
 			this.mesh.position.copy(position);
 			this.mesh.rotation.copy(rotation);
